@@ -1,18 +1,20 @@
 import jwt from "jsonwebtoken";
 import { get } from "lodash";
+import { User } from "../models/user.model";
 import sessionService from "../services/session.service";
 import userService from "../services/user.service";
 import omit from "./omit";
 
 class JWT {
   signJwt = (payload: any, secret: string, options = {}) => {
-    return jwt.sign(payload, Buffer.from(secret).toString("ascii"), {
+    return jwt.sign(payload, Buffer.from(secret, "base64").toString("ascii"), {
       ...(options && options),
+      algorithm: "RS256",
     });
   };
 
   verifyJwt = (token: string, secret: string) => {
-    return jwt.verify(token, Buffer.from(secret).toString("ascii"));
+    return jwt.verify(token, Buffer.from(secret, "base64").toString("ascii"));
   };
 
   reIssueAccessToken = async (
@@ -37,10 +39,9 @@ class JWT {
       const payload = {
         ...omit(user.toJSON(), [
           "__v",
-          "comparePassword",
           "password",
-          "typegooseName",
-        ]),
+          "updatedAt",
+        ] as (keyof User)[]),
         session: session._id,
       };
 

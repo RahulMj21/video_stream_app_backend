@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "tsnd --exit-child --transpile-only src/server.ts"
+    "dev": "tsnd --transpile-only --respawn src/server.ts"
   },
   "dependencies": {
     "@mantine/form": "^4.1.4",

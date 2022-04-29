@@ -8,10 +8,10 @@ import argon from "argon2";
 })
 export class User {
   @prop({ required: true, unique: true })
-  public name: string;
-
-  @prop({ required: true, unique: true })
   public email: string;
+
+  @prop({ required: true })
+  public name: string;
 
   @prop({ required: true })
   public password: string;

@@ -14,9 +14,4 @@ const connectDatabase = async () => {
   }
 };
 
-export async function disconnctedDatabase() {
-  await mongoose.connection.close();
-  return logger.info("db connection closed");
-}
-
 export default connectDatabase;

@@ -1,6 +1,6 @@
 import { object, string, TypeOf } from "zod";
 
-const RegisterSchema = object({
+export const RegisterSchema = object({
   body: object({
     name: string({ required_error: "name is required" })
       .min(3, "name cannot be smaller than 3 characters")

@@ -52,7 +52,6 @@ const deserializeUser = async (
           maxAge: config.get<number>("cookieMaxAge"),
           httpOnly: true,
           secure: false,
-          sameSite: true,
           path: "/",
         });
         res.setHeader("x-access-token", newAccessToken);
@@ -62,6 +61,7 @@ const deserializeUser = async (
       }
     }
   } catch (error: any) {
+    // console.log("err->>", error);
     return next(CustomErrorHandler.unauthorized());
   }
 };

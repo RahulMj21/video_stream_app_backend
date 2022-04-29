@@ -7,6 +7,7 @@ import CustomErrorHandler from "../utils/CustomErrorHandler";
 import sessionService from "../services/session.service";
 import createTokenAndSetCookie from "../utils/createTokenAndSetCookie";
 import { LoginInput } from "../schemas/login.schema";
+import userService from "../services/user.service";
 
 class AuthController {
   /*
@@ -93,7 +94,38 @@ class AuthController {
       });
     }
   );
-  logout = BigPromise((req: Request, res: Response, next: NextFunction) => {});
+  /*
+    Todo -> Logout flow 👇👇👇👇
+      * 1) get the user from decoded cookie
+      * 2) check if the user exists
+      * 3) check if the session exists
+      * 4) remove the session and clear the cookies
+      * 5) send response
+  */
+  logout = BigPromise(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const decodedUser = get(res, "locals.user");
+
+      const user = await userService.findUser({ _id: get(decodedUser, "_id") });
+      if (!user) return next(CustomErrorHandler.unauthorized());
+
+      const session = await sessionService.findSession({
+        userId: user._id,
+        userAgent: req.get("user-agent") || "",
+      });
+      if (!session) return next(CustomErrorHandler.unauthorized());
+
+      session.remove();
+
+      res.clearCookie("accessToken");
+      res.clearCookie("refreshToken");
+
+      return res.status(200).json({
+        success: true,
+        message: "logged out successfully",
+      });
+    }
+  );
 }
 
 export default new AuthController();

@@ -12,11 +12,11 @@ class UserServices {
       const user = await userModel.create(input);
       return omit(user.toJSON(), [
         "__v",
-        "comparePassword",
+        "updatedAt",
         "password",
-        "typegooseName",
-      ]);
+      ] as (keyof User)[]);
     } catch (error: any) {
+      console.log(error);
       return false;
     }
   };
@@ -24,6 +24,21 @@ class UserServices {
   findUser = async (query: FilterQuery<User>) => {
     try {
       return await userModel.findOne(query);
+    } catch (error: any) {
+      return false;
+    }
+  };
+
+  findAllUsers = async () => {
+    try {
+      const users = await userModel.find();
+      return users.map((user) => {
+        return omit(user.toJSON(), [
+          "__v",
+          "password",
+          "updatedAt",
+        ] as (keyof User)[]);
+      });
     } catch (error: any) {
       return false;
     }
@@ -39,10 +54,9 @@ class UserServices {
 
       return omit(user.toJSON(), [
         "__v",
-        "comparePassword",
+        "updatedAt",
         "password",
-        "typegooseName",
-      ]);
+      ] as (keyof User)[]);
     } catch (error: any) {
       return false;
     }

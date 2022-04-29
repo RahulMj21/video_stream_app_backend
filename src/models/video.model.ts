@@ -6,7 +6,7 @@ const nanoid = customAlphabet("0123456789abcdefghijklmnopqrstuvwxyz", 10);
 
 export class Video {
   @prop()
-  public videoName: string;
+  public videoTitle: string;
 
   @prop()
   public videoDescription: string;
@@ -19,6 +19,9 @@ export class Video {
 
   @prop({ unique: true, default: () => nanoid() })
   public videoId: string;
+
+  @prop({ default: false })
+  public published: Boolean;
 }
 
 const videoModel = getModelForClass(Video, {

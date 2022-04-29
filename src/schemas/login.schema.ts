@@ -1,6 +1,6 @@
 import { object, string, TypeOf } from "zod";
 
-const LoginSchema = object({
+export const LoginSchema = object({
   body: object({
     email: string({ required_error: "email is required" }).email(
       "please provide a valid email"

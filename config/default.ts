@@ -11,4 +11,5 @@ export default {
   refreshTokenExpiry: 1000 * 60 * 60 * 24 * 365,
   cookieMaxAge: 1000 * 60 * 60 * 24 * 365,
   mimeTypes: ["video/mp4", "video/mov"],
+  chunkSize: 1000000, //1mb
 };
