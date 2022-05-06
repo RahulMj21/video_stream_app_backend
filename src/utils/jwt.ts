@@ -39,8 +39,10 @@ class JWT {
       const payload = {
         ...omit(user.toJSON(), [
           "__v",
-          "password",
           "updatedAt",
+          "password",
+          "forgotPasswordToken",
+          "forgotPasswordExpiry",
         ] as (keyof User)[]),
         session: session._id,
       };

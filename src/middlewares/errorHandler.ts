@@ -9,7 +9,7 @@ const errorHandler = (
   let status = 500;
   let message = "internal server error";
 
-  // console.log("err->>", err);
+  console.error("err->>", err.toString());
 
   if (err.status) {
     status = err.status;

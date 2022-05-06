@@ -14,6 +14,8 @@ class UserServices {
         "__v",
         "updatedAt",
         "password",
+        "forgotPasswordToken",
+        "forgotPasswordExpiry",
       ] as (keyof User)[]);
     } catch (error: any) {
       console.log(error);
@@ -31,13 +33,11 @@ class UserServices {
 
   findAllUsers = async () => {
     try {
-      const users = await userModel.find();
+      const users = await userModel
+        .find()
+        .select("_id name email avatar role isLoggedInWithGoogle createdAt");
       return users.map((user) => {
-        return omit(user.toJSON(), [
-          "__v",
-          "password",
-          "updatedAt",
-        ] as (keyof User)[]);
+        return user.toJSON();
       });
     } catch (error: any) {
       return false;
@@ -56,7 +56,29 @@ class UserServices {
         "__v",
         "updatedAt",
         "password",
+        "forgotPasswordToken",
+        "forgotPasswordExpiry",
       ] as (keyof User)[]);
+    } catch (error: any) {
+      return false;
+    }
+  };
+
+  upsertUser = async (query: FilterQuery<User>, update = {}) => {
+    try {
+      const user = await userModel.findOneAndUpdate(query, update, {
+        new: true,
+        upsert: true,
+      });
+
+      if (!user) return false;
+      return omit(user.toJSON(), [
+        "__v",
+        "updatedAt",
+        "password",
+        "forgotPasswordToken",
+        "forgotPasswordExpiry",
+      ]);
     } catch (error: any) {
       return false;
     }

@@ -8,6 +8,8 @@ import sessionService from "../services/session.service";
 import createTokenAndSetCookie from "../utils/createTokenAndSetCookie";
 import { LoginInput } from "../schemas/login.schema";
 import userService from "../services/user.service";
+import Google from "../services/google.service";
+import config from "config";
 
 class AuthController {
   /*
@@ -124,6 +126,48 @@ class AuthController {
         success: true,
         message: "logged out successfully",
       });
+    }
+  );
+
+  googleAuth = BigPromise(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const code = get(req, "query.code");
+
+      const { access_token, id_token } = await Google.getGoogleUserTokens(code);
+
+      const details = await Google.getGoogleUserDetails(access_token, id_token);
+
+      if (!details.verified_email)
+        return next(CustomErrorHandler.badRequest("email not verified"));
+
+      const user = await userService.upsertUser(
+        { email: details.email },
+        {
+          email: details.email,
+          name: details.name,
+        }
+      );
+      if (!user) return next(CustomErrorHandler.wentWrong());
+
+      const session = await sessionService.upsertSession(
+        {
+          userId: user._id,
+          userAgent: req.get("user-agent") || "",
+        },
+        {
+          userId: user._id,
+          userAgent: req.get("user-agent") || "",
+        }
+      );
+      if (!session) return next(CustomErrorHandler.wentWrong());
+
+      const isCookieSet = createTokenAndSetCookie(
+        { ...user, session: session._id },
+        res
+      );
+      if (!isCookieSet) return next(CustomErrorHandler.wentWrong());
+
+      return res.redirect(config.get<string>("frontendUrl"));
     }
   );
 }

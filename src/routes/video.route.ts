@@ -8,11 +8,21 @@ const router = Router();
 router.route("/new").post(deserializeUser, videoController.createNewVideo);
 
 router
-  .route("/update")
+  .route("/update/:videoId")
   .put(
     deserializeUser,
     validateResources(UpdateVideoSchema),
-    videoController.createNewVideo
+    videoController.updateVideo
   );
+
+router.route("/all").get(deserializeUser, videoController.getAllVideos);
+router.route("/own").get(deserializeUser, videoController.getMyAllVideos);
+router
+  .route("/all/:userId")
+  .get(deserializeUser, videoController.getUsersAllVideos);
+router
+  .route("/:videoId")
+  .get(deserializeUser, videoController.getSingleVideo)
+  .delete(deserializeUser, videoController.deleteVideo);
 
 export default router;
