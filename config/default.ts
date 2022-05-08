@@ -12,12 +12,10 @@ export default {
   cookieMaxAge: 1000 * 60 * 60 * 24 * 365,
   mimeTypes: ["video/mp4"],
   chunkSize: 1000000, //1mb
-  googleClientId: process.env.GOOGLE_CLIENT_KEY,
+  googleClientId: process.env.GOOGLE_CLIENT_ID,
   googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  googleTokenUri: process.env.GOOGLE_TOKEN_URI as string,
-  googleRedirectUri: process.env.GOOGLE_REDIRECT_URI as string,
-  mailHost: process.env.MAIL_HOST,
-  mailPort: process.env.MAIL_PORT,
-  mailUser: process.env.MAIL_USER,
-  mailPass: process.env.MAIL_PASS,
+  googleTokenUri: process.env.GOOGLE_TOKEN_URI,
+  googleRedirectUri: process.env.GOOGLE_REDIRECT_URI,
+  mailApi: process.env.MAIL_API,
+  mailFrom: process.env.MAIL_FROM,
 };

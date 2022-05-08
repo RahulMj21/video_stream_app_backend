@@ -25,13 +25,11 @@ router
     userController.updatePassword
   );
 
+router.route("/user/forgotpassword").post(userController.forgotPassword);
+
 router
   .route("/user/resetpassword/:token")
-  .put(
-    deserializeUser,
-    validateResources(ResetPasswordSchema),
-    userController.resetPassword
-  );
+  .put(validateResources(ResetPasswordSchema), userController.resetPassword);
 router
   .route("/user/delete")
   .delete(deserializeUser, userController.deleteCurrentUser);

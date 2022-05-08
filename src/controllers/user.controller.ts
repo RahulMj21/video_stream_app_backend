@@ -7,11 +7,11 @@ import CustomErrorHandler from "../utils/CustomErrorHandler";
 import omit from "../utils/omit";
 import { UpdatePasswordInput } from "../schemas/updatePassword.schema";
 import { z } from "zod";
-import sendMail from "../utils/sendMail";
 import config from "config";
 import { ResetPasswordInput } from "../schemas/resetPassword.schema";
 import { getHash } from "../utils/getHash";
 import cloudinary from "cloudinary";
+import axios from "axios";
 
 class UserController {
   getCurrentUser = BigPromise(
@@ -144,6 +144,7 @@ class UserController {
 
       const data = {
         to: req.body.email,
+        from: config.get<string>("mailFrom"),
         subject: "password reset link from Stream Hub",
         html: `<html>
                 <body>
@@ -151,21 +152,27 @@ class UserController {
                   <p>👇👇👇👇</p>
                   <p><a href="${config.get<string>(
                     "frontendUrl"
-                  )}/${token}">Reset Password</a></p>
+                  )}/auth/resetpassword/${token}">Reset Password</a></p>
                     <p>Or copy the below url and paste in your browser</p>
                     <p>👇👇👇👇</p>
-                    <p>${config.get<string>("frontendUrl")}/${token}</p>
+                    <p>${config.get<string>(
+                      "frontendUrl"
+                    )}/auth/resetpassword/${token}</p>
                     </body>
               </html>`,
       };
 
-      const info = await sendMail(data);
-      if (info.rejected) return next(CustomErrorHandler.wentWrong());
-
-      return res.status(200).json({
-        success: true,
-        message: "Check your email to reset password",
-      });
+      axios
+        .post(config.get<string>("mailApi"), data)
+        .then(() => {
+          return res.status(200).json({
+            success: true,
+            message: "Check your email to reset password",
+          });
+        })
+        .catch(() =>
+          next(CustomErrorHandler.badRequest("mail cannot be sent"))
+        );
     }
   );
 

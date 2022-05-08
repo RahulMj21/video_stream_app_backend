@@ -145,6 +145,11 @@ class AuthController {
         {
           email: details.email,
           name: details.name,
+          avatar: {
+            public_id: "",
+            secure_url: details.picture,
+          },
+          isLoggedInWithGoogle: true,
         }
       );
       if (!user) return next(CustomErrorHandler.wentWrong());

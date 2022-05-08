@@ -1,5 +1,4 @@
 import fs from "fs";
-import path from "path";
 import busboy from "busboy";
 import { NextFunction, Request, Response } from "express";
 import { get } from "lodash";
@@ -18,6 +17,9 @@ const getFilePath = ({
   videoId: Video["videoId"];
   extension: string;
 }) => {
+  if (!fs.existsSync(`${process.cwd()}/videos`)) {
+    fs.mkdirSync(`${process.cwd()}/videos`);
+  }
   return `${process.cwd()}/videos/${videoId}.${extension}`;
 };
 
