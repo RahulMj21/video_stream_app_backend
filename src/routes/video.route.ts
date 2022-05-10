@@ -15,6 +15,10 @@ router
     videoController.updateVideo
   );
 
+router
+  .route("/watch/:videoId")
+  .get(deserializeUser, videoController.streamVideo);
+
 router.route("/all").get(deserializeUser, videoController.getAllVideos);
 router.route("/own").get(deserializeUser, videoController.getMyAllVideos);
 router

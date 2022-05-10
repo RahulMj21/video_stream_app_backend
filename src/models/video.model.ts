@@ -14,7 +14,7 @@ export class Video {
   @prop({ required: true, ref: () => User })
   public creator: Ref<User>;
 
-  @prop({ enum: ["mp4,mov"] })
+  @prop({ enum: ["mp4"] })
   public extension: string;
 
   @prop({ unique: true, default: () => nanoid() })

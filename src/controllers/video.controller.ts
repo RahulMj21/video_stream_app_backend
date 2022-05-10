@@ -87,7 +87,7 @@ class VideoController {
       const video = await videoService.findVideo(videoId);
       if (!video) return next(CustomErrorHandler.notFound("video not found"));
 
-      if (String(video.creator) !== get(decodedUser, "_id"))
+      if (video.creator?._id.toString() !== get(decodedUser, "_id").toString())
         return next(CustomErrorHandler.unauthorized());
 
       video.videoTitle = videoTitle;

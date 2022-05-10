@@ -22,13 +22,6 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 app.use(helmet());
-// app.use(
-//   express.urlencoded({
-//     extended: true,
-//     limit: "100mb",
-//     parameterLimit: 1000000,
-//   })
-// );
 
 app.use("/api/v1", testRoute);
 app.use("/api/v1", authRoutes);
