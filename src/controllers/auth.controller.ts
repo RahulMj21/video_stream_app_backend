@@ -8,7 +8,7 @@ import sessionService from "../services/session.service";
 import createTokenAndSetCookie from "../utils/createTokenAndSetCookie";
 import { LoginInput } from "../schemas/login.schema";
 import userService from "../services/user.service";
-import Google from "../services/google.service";
+import Google from "../services/googleAuth.service";
 import config from "config";
 
 class AuthController {

@@ -9,7 +9,7 @@
   "dependencies": {
     "@typegoose/typegoose": "^9.8.0",
     "argon2": "^0.28.5",
-    "axios": "^0.27.2",
+    "axios": "^0.26.1",
     "busboy": "^1.6.0",
     "cloudinary": "^1.29.1",
     "config": "^3.3.7",
