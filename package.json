@@ -27,7 +27,9 @@
     "mongoose-slug-generator": "^1.0.4",
     "nanoid": "^3.3.3",
     "nodemailer": "^6.7.5",
+    "npm": "^8.10.0",
     "pino": "^7.10.0",
+    "using": "^1.0.0-alpha-1",
     "zod": "^3.14.4",
     "zod-express-middleware": "^1.4.0"
   },

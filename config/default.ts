@@ -18,4 +18,7 @@ export default {
   googleRedirectUri: process.env.GOOGLE_REDIRECT_URI as string,
   mailApi: process.env.MAIL_API,
   mailFrom: process.env.MAIL_FROM,
+  cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
+  cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+  cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,
 };

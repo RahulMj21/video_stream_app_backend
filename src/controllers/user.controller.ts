@@ -85,7 +85,13 @@ class UserController {
 
       return res.status(200).json({
         success: true,
-        message: "your profile has been updated successfully",
+        user: omit(user.toJSON(), [
+          "password",
+          "__v",
+          "updatedAt",
+          "forgotPasswordToken",
+          "forgotPasswordExpiry",
+        ]),
       });
     }
   );
