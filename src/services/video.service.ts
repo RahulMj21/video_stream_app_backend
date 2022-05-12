@@ -16,7 +16,7 @@ class VideoService {
       return await videoModel
         .findOne({ videoId })
         .select("-__v")
-        .populate({ path: "creator", select: "name _id email" });
+        .populate({ path: "creator", select: "name _id email avatar" });
     } catch (error: any) {
       return false;
     }
@@ -27,7 +27,7 @@ class VideoService {
       const videos = await videoModel
         .find(query)
         .select("-__v")
-        .populate({ path: "creator", select: "name _id email" });
+        .populate({ path: "creator", select: "name _id email avatar" });
 
       if (videos.length < 1) return [];
 
